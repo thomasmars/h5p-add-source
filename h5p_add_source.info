@@ -1,0 +1,8 @@
+; @file
+;  h5p_add_source.info ini file
+;  Contains general information about the h5p_add_source Drupal module.
+name = H5P Add CKEDITOR Source button
+description = "Adds a source button to CKEDITOR wysiwyg of H5P."
+core = 7.x
+
+dependencies[] = h5p

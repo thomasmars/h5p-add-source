@@ -1,0 +1,65 @@
+<?php
+
+/**
+ * @file
+ *  h5p_add_source.module php file
+ *  Drupal module h5p_add_source makes it possible to choose text size and
+ *  color in all wysiwyg fields of H5P.
+ */
+
+function h5p_add_source_form_h5p_content_node_form_alter(&$form, &$form_state) {
+	$form['#after_build'][] = 'h5p_add_source_form_h5p_content_node_form_after_build';
+}
+
+function h5p_add_source_form_h5p_content_node_form_after_build($form, &$form_state) {
+	$settings = array(
+		'sourcedialogPath' => base_path() . drupal_get_path('module', 'h5p_add_source') . '/sourcedialog/',
+		'h5peditor' => array(
+			'assets' => array(
+				'js' => array(
+					base_path() . drupal_get_path('module', 'h5p_add_source') . '/extraplugins.js'
+				)
+			),
+		),
+	);
+	drupal_add_js($settings, 'setting');
+	return $form;
+}
+
+function h5p_add_source_h5p_semantics_alter(&$semantics, $library_name = NULL) {
+	// Check if this is the multichoice question type.
+	if ($library_name !== 'H5P.MultiChoice') {
+		return; // Nope, do not continue.
+	}
+
+	foreach ($semantics as $field) {
+		// Go through list fields
+		while ($field->type === 'list') {
+			$field = $field->field;
+		}
+
+		// Go through group fields
+		if ($field->type === 'group') {
+			h5p_add_source_h5p_semantics_alter($field->fields, $library_name); // Check your function name!
+			continue;
+		}
+
+		// Check to see if we have the correct type and widget
+		if ($field->type === 'text' && isset($field->widget) && $field->widget === 'html') {
+			// Found a field. Add support for table tags.
+			if (!isset($field->tags)) {
+				$field->tags = array();
+			}
+			$field->tags = array_merge($field->tags, array(
+				'table',
+				'thead',
+				'tfoot',
+				'tbody',
+				'tr',
+				'th',
+				'td',
+				'sourcedialog'
+			));
+		}
+	}
+}

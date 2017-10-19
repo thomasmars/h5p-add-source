@@ -1,0 +1,7 @@
+<?php
+
+/**
+ * @file
+ *  h5p_add_source.install php file
+ *  Install and upgrade instructions for the h5p_add_source Drupal module.
+ */
