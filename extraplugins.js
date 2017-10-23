@@ -5,7 +5,7 @@
         }
 
         // Register our plugin
-        CKEDITOR.plugins.addExternal('sourcedialog', '/sites/all/modules/h5p-css-overrides/sourcedialog/', 'plugin.js');
+        CKEDITOR.plugins.addExternal('sourcedialog', '/sites/all/modules/h5p-add-source/sourcedialog/', 'plugin.js');
         H5PEditor.HtmlAddons = H5PEditor.HtmlAddons || {};
         H5PEditor.HtmlAddons.sourcedialog = H5PEditor.HtmlAddons.sourcedialog || {};
         H5PEditor.HtmlAddons.sourcedialog.sourcedialog = function (config, tags) {
